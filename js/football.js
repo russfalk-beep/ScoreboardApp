@@ -1,12 +1,9 @@
 const Football = {
     state: {
-        quarter: 1, // 1-5 (5=OT)
-        clockSeconds: 900, // 15:00
+        quarter: 1,
+        clockSeconds: 900,
         clockRunning: false,
         clockInterval: null,
-        playClockSeconds: 40,
-        playClockRunning: false,
-        playClockInterval: null,
         down: 1,
         distance: 10,
         yardline: 50,
@@ -53,11 +50,7 @@ const Football = {
     },
 
     toggleClock() {
-        if (this.state.clockRunning) {
-            this.stopClock();
-        } else {
-            this.startClock();
-        }
+        this.state.clockRunning ? this.stopClock() : this.startClock();
     },
 
     startClock() {
@@ -88,8 +81,7 @@ const Football = {
     },
 
     toggleTimeout(side, index) {
-        const key = side + 'Timeouts';
-        this.state[key][index] = !this.state[key][index];
+        this.state[side + 'Timeouts'][index] = !this.state[side + 'Timeouts'][index];
         this.updateTimeouts();
     },
 
@@ -128,14 +120,9 @@ const Football = {
     setTeam(side, team) {
         this.state[side + 'Team'] = team;
         const prefix = 'fb-' + side;
-        document.getElementById(prefix + '-name').textContent = team.name;
+        document.getElementById(prefix + '-name').textContent = team.abbr;
         document.getElementById(prefix + '-abbr').textContent = team.abbr;
         setTeamLogo(document.getElementById(prefix + '-logo'), 'football', team);
-
-        // Apply team colors
-        const panel = document.getElementById(prefix + '-logo').closest('.team-panel');
-        panel.style.borderColor = team.colors[0];
-        panel.querySelector('.score').style.color = team.colors[0];
     },
 
     updateClockDisplay() {
@@ -146,29 +133,30 @@ const Football = {
     },
 
     updateTimeouts() {
-        ['away', 'home'].forEach(side => {
-            const container = document.getElementById('fb-' + side + '-timeouts');
-            const dots = container.querySelectorAll('.timeout');
-            this.state[side + 'Timeouts'].forEach((active, i) => {
-                dots[i].classList.toggle('active', active);
-            });
+        const strip = document.querySelector('#football-scoreboard .timeouts-strip');
+        const groups = strip.querySelectorAll('.to-group');
+        // Away = first group, Home = second group
+        [this.state.awayTimeouts, this.state.homeTimeouts].forEach((tos, gi) => {
+            const dots = groups[gi].querySelectorAll('.timeout');
+            tos.forEach((active, i) => dots[i].classList.toggle('active', active));
         });
     },
 
     updateDisplay() {
-        const ordinals = ['1st', '2nd', '3rd', '4th', 'OT'];
-        document.getElementById('fb-quarter').textContent =
-            this.state.quarter <= 4 ? ordinals[this.state.quarter - 1] + ' Quarter' : 'Overtime';
+        const labels = ['1ST QTR', '2ND QTR', '3RD QTR', '4TH QTR', 'OT'];
+        document.getElementById('fb-quarter').textContent = labels[this.state.quarter - 1];
 
         this.updateClockDisplay();
 
         document.getElementById('fb-away-score').textContent = this.state.awayScore;
         document.getElementById('fb-home-score').textContent = this.state.homeScore;
 
-        const downOrd = ['1st', '2nd', '3rd', '4th'];
+        const downOrd = ['1ST', '2ND', '3RD', '4TH'];
         document.getElementById('fb-down').textContent = downOrd[this.state.down - 1];
         document.getElementById('fb-distance').textContent = this.state.distance;
         document.getElementById('fb-yardline').textContent = this.state.yardline;
+
+        document.getElementById('fb-play-clock').textContent = this.state.playClockSeconds || 40;
 
         this.updateTimeouts();
         this.updateQuarterScores();

@@ -136,11 +136,11 @@ function swapTeams() {
     if (awayTeam) module.setTeam('home', awayTeam);
     if (homeTeam) module.setTeam('away', homeTeam);
     if (!awayTeam) {
-        document.getElementById(prefix + '-home-name').textContent = 'Home Team';
+        document.getElementById(prefix + '-home-name').textContent = 'HOME';
         module.state.homeTeam = null;
     }
     if (!homeTeam) {
-        document.getElementById(prefix + '-away-name').textContent = 'Away Team';
+        document.getElementById(prefix + '-away-name').textContent = 'AWAY';
         module.state.awayTeam = null;
     }
 

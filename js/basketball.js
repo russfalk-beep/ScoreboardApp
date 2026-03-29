@@ -1,12 +1,11 @@
 const Basketball = {
     state: {
         quarter: 1,
-        clockSeconds: 720, // 12:00
+        clockSeconds: 720,
         clockRunning: false,
         clockInterval: null,
         shotClockSeconds: 24,
         shotClockRunning: false,
-        shotClockInterval: null,
         possession: null,
         awayScore: 0,
         homeScore: 0,
@@ -33,8 +32,7 @@ const Basketball = {
     },
 
     addFoul(side, count) {
-        const key = side + 'Fouls';
-        this.state[key] = Math.max(0, this.state[key] + count);
+        this.state[side + 'Fouls'] = Math.max(0, this.state[side + 'Fouls'] + count);
         this.updateDisplay();
     },
 
@@ -59,11 +57,7 @@ const Basketball = {
     },
 
     toggleClock() {
-        if (this.state.clockRunning) {
-            this.stopClock();
-        } else {
-            this.startClock();
-        }
+        this.state.clockRunning ? this.stopClock() : this.startClock();
     },
 
     startClock() {
@@ -72,12 +66,11 @@ const Basketball = {
         this.state.clockInterval = setInterval(() => {
             if (this.state.clockSeconds > 0) {
                 this.state.clockSeconds--;
-                this.updateClockDisplay();
-                // Also tick shot clock
                 if (this.state.shotClockRunning && this.state.shotClockSeconds > 0) {
                     this.state.shotClockSeconds--;
-                    document.getElementById('bk-shot-clock').textContent = this.state.shotClockSeconds;
                 }
+                this.updateClockDisplay();
+                document.getElementById('bk-shot-clock').textContent = this.state.shotClockSeconds;
             } else {
                 this.stopClock();
             }
@@ -114,21 +107,16 @@ const Basketball = {
     },
 
     toggleTimeout(side, index) {
-        const key = side + 'Timeouts';
-        this.state[key][index] = !this.state[key][index];
+        this.state[side + 'Timeouts'][index] = !this.state[side + 'Timeouts'][index];
         this.updateTimeouts();
     },
 
     setTeam(side, team) {
         this.state[side + 'Team'] = team;
         const prefix = 'bk-' + side;
-        document.getElementById(prefix + '-name').textContent = team.name;
+        document.getElementById(prefix + '-name').textContent = team.abbr;
         document.getElementById(prefix + '-abbr').textContent = team.abbr;
         setTeamLogo(document.getElementById(prefix + '-logo'), 'basketball', team);
-
-        const panel = document.getElementById(prefix + '-logo').closest('.team-panel');
-        panel.style.borderColor = team.colors[0];
-        panel.querySelector('.score').style.color = team.colors[0];
     },
 
     updateClockDisplay() {
@@ -139,19 +127,17 @@ const Basketball = {
     },
 
     updateTimeouts() {
-        ['away', 'home'].forEach(side => {
-            const container = document.getElementById('bk-' + side + '-timeouts');
-            const dots = container.querySelectorAll('.timeout');
-            this.state[side + 'Timeouts'].forEach((active, i) => {
-                dots[i].classList.toggle('active', active);
-            });
+        const strip = document.querySelector('#basketball-scoreboard .timeouts-strip');
+        const groups = strip.querySelectorAll('.to-group');
+        [this.state.awayTimeouts, this.state.homeTimeouts].forEach((tos, gi) => {
+            const dots = groups[gi].querySelectorAll('.timeout');
+            tos.forEach((active, i) => dots[i].classList.toggle('active', active));
         });
     },
 
     updateDisplay() {
-        const ordinals = ['1st', '2nd', '3rd', '4th', 'OT'];
-        document.getElementById('bk-quarter').textContent =
-            this.state.quarter <= 4 ? ordinals[this.state.quarter - 1] + ' Quarter' : 'Overtime';
+        const labels = ['1ST QTR', '2ND QTR', '3RD QTR', '4TH QTR', 'OT'];
+        document.getElementById('bk-quarter').textContent = labels[this.state.quarter - 1];
 
         this.updateClockDisplay();
 
@@ -161,7 +147,6 @@ const Basketball = {
         document.getElementById('bk-away-fouls').textContent = this.state.awayFouls;
         document.getElementById('bk-home-fouls').textContent = this.state.homeFouls;
 
-        // Bonus indicator (5+ fouls = bonus)
         document.getElementById('bk-away-bonus').textContent = this.state.awayFouls >= 5 ? 'BONUS' : '';
         document.getElementById('bk-home-bonus').textContent = this.state.homeFouls >= 5 ? 'BONUS' : '';
 
