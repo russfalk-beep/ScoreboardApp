@@ -3,7 +3,8 @@ let currentSport = 'football';
 let pickerSport = null;
 let pickerSide = null;
 
-function switchSport(sport) {
+function switchSport(sport, e) {
+    if (e) e.preventDefault();
     currentSport = sport;
 
     // Update buttons
@@ -18,6 +19,9 @@ function switchSport(sport) {
 
     // Apply theme class
     document.body.className = sport + '-theme';
+
+    // Scroll to scoreboard on mobile so it doesn't jump
+    document.querySelector('.sport-selector').scrollIntoView({ behavior: 'instant', block: 'nearest' });
 }
 
 function openTeamPicker(sport, side) {
@@ -156,6 +160,25 @@ document.getElementById('team-picker-modal').addEventListener('click', function(
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeTeamPicker();
 });
+
+// Prevent buttons from holding focus (causes scroll jumps on mobile)
+document.addEventListener('click', function(e) {
+    const btn = e.target.closest('button, .timeout');
+    if (btn) {
+        btn.blur();
+    }
+});
+
+// Prevent accidental team picker opens during scroll on mobile
+let touchMoved = false;
+document.addEventListener('touchstart', function() { touchMoved = false; }, { passive: true });
+document.addEventListener('touchmove', function() { touchMoved = true; }, { passive: true });
+
+const origOpenTeamPicker = openTeamPicker;
+openTeamPicker = function(sport, side) {
+    if (touchMoved) return;
+    origOpenTeamPicker(sport, side);
+};
 
 // Initialize all scoreboards
 Football.init();

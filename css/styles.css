@@ -16,6 +16,17 @@ body {
     color: #ffffff;
     min-height: 100vh;
     transition: background 0.3s;
+    overflow-anchor: none;
+}
+
+/* Prevent focus outline scroll on mobile */
+button:focus, .timeout:focus {
+    outline: none;
+}
+
+/* Prevent tap highlight causing scroll on iOS */
+button, .tv-team, .timeout, .team-card {
+    -webkit-tap-highlight-color: transparent;
 }
 
 body.football-theme { background: linear-gradient(180deg, #0a1628 0%, #0a0a1a 100%); }
