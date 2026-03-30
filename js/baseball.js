@@ -88,6 +88,28 @@ const Baseball = {
         this.updateDisplay();
     },
 
+    fastForward() {
+        // Skip a full inning (top + bottom)
+        if (this.state.isTop) {
+            this.state.isTop = false;
+        } else {
+            this.state.isTop = true;
+            if (this.state.inning < 12) this.state.inning++;
+        }
+        // Then skip again to get a full inning
+        if (this.state.isTop) {
+            this.state.isTop = false;
+        } else {
+            this.state.isTop = true;
+            if (this.state.inning < 12) this.state.inning++;
+        }
+        this.state.outs = 0;
+        this.state.balls = 0;
+        this.state.strikes = 0;
+        this.state.bases = { first: false, second: false, third: false };
+        this.updateDisplay();
+    },
+
     nextInning() {
         if (this.state.isTop) {
             this.state.isTop = false;

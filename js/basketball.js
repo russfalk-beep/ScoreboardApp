@@ -60,9 +60,11 @@ const Basketball = {
         this.state.clockRunning ? this.stopClock() : this.startClock();
     },
 
-    startClock() {
+    startClock(speed) {
         if (this.state.clockRunning) return;
+        const interval = speed || 1000;
         this.state.clockRunning = true;
+        this.state.clockSpeed = interval;
         this.state.clockInterval = setInterval(() => {
             if (this.state.clockSeconds > 0) {
                 this.state.clockSeconds--;
@@ -74,7 +76,12 @@ const Basketball = {
             } else {
                 this.stopClock();
             }
-        }, 1000);
+        }, interval);
+    },
+
+    fastForward() {
+        this.stopClock();
+        this.startClock(100); // 10x speed
     },
 
     stopClock() {

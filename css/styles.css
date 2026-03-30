@@ -309,6 +309,8 @@ body.basketball-theme { background: linear-gradient(180deg, #1a0808 0%, #0a0a1a 
     transition: all 0.2s;
 }
 .ctrl-btn:hover { background: #252540; color: #fff; border-color: #555; }
+.ctrl-btn.ff-btn { border-color: #ff8844; color: #ff8844; }
+.ctrl-btn.ff-btn:hover { background: rgba(255, 136, 68, 0.15); color: #ffaa66; }
 
 .scoring-btns {
     display: flex;
