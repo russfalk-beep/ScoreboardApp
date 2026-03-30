@@ -29,27 +29,23 @@
 
         <!-- ==================== FOOTBALL SCOREBOARD ==================== -->
         <div id="football-scoreboard" class="scoreboard football-board">
-            <!-- Main Score Bar - TV Style -->
             <div class="tv-scorebar">
-                <div class="tv-team away" onclick="openTeamPicker('football', 'away')">
+                <div class="team-row away-row" onclick="openTeamPicker('football', 'away')">
                     <img id="fb-away-logo" class="tv-logo" src="" alt="">
                     <span class="tv-team-name" id="fb-away-name">AWAY</span>
-                    <span class="tv-team-record" id="fb-away-record"></span>
+                    <span class="tv-score" id="fb-away-score">0</span>
                 </div>
-                <div class="tv-score away-score" id="fb-away-score">0</div>
                 <div class="tv-game-info">
                     <div class="tv-clock" id="fb-clock">15:00</div>
                     <div class="tv-period" id="fb-quarter">1ST QTR</div>
                 </div>
-                <div class="tv-score home-score" id="fb-home-score">0</div>
-                <div class="tv-team home" onclick="openTeamPicker('football', 'home')">
-                    <span class="tv-team-name" id="fb-home-name">HOME</span>
-                    <span class="tv-team-record" id="fb-home-record"></span>
+                <div class="team-row home-row" onclick="openTeamPicker('football', 'home')">
                     <img id="fb-home-logo" class="tv-logo" src="" alt="">
+                    <span class="tv-team-name" id="fb-home-name">HOME</span>
+                    <span class="tv-score" id="fb-home-score">0</span>
                 </div>
             </div>
 
-            <!-- Football Info Strip -->
             <div class="fb-info-strip">
                 <div class="fb-possession">
                     <button class="poss-arrow" id="fb-poss-away" onclick="Football.setPossession('away')">&#9664;</button>
@@ -72,7 +68,6 @@
                 </div>
             </div>
 
-            <!-- Football Timeouts -->
             <div class="timeouts-strip">
                 <div class="to-group">
                     <span class="to-label">TIMEOUTS</span>
@@ -88,7 +83,6 @@
                 </div>
             </div>
 
-            <!-- Clock & Period Controls -->
             <div class="controls-row">
                 <div class="control-group">
                     <span class="ctrl-label">QUARTER</span>
@@ -121,12 +115,9 @@
                 </div>
             </div>
 
-            <!-- Quarter Scores -->
             <div class="box-score" id="fb-quarter-scores">
                 <table>
-                    <thead>
-                        <tr><th></th><th>Q1</th><th>Q2</th><th>Q3</th><th>Q4</th><th>OT</th><th>TOTAL</th></tr>
-                    </thead>
+                    <thead><tr><th></th><th>Q1</th><th>Q2</th><th>Q3</th><th>Q4</th><th>OT</th><th>TOTAL</th></tr></thead>
                     <tbody>
                         <tr id="fb-away-qtrs"><td id="fb-away-abbr" class="team-col">AWAY</td><td>0</td><td>0</td><td>0</td><td>0</td><td>-</td><td class="total-col">0</td></tr>
                         <tr id="fb-home-qtrs"><td id="fb-home-abbr" class="team-col">HOME</td><td>0</td><td>0</td><td>0</td><td>0</td><td>-</td><td class="total-col">0</td></tr>
@@ -137,13 +128,12 @@
 
         <!-- ==================== BASEBALL SCOREBOARD ==================== -->
         <div id="baseball-scoreboard" class="scoreboard baseball-board" style="display:none;">
-            <!-- Main Score Bar -->
             <div class="tv-scorebar">
-                <div class="tv-team away" onclick="openTeamPicker('baseball', 'away')">
+                <div class="team-row away-row" onclick="openTeamPicker('baseball', 'away')">
                     <img id="bb-away-logo" class="tv-logo" src="" alt="">
                     <span class="tv-team-name" id="bb-away-name">AWAY</span>
+                    <span class="tv-score" id="bb-away-score">0</span>
                 </div>
-                <div class="tv-score away-score" id="bb-away-score">0</div>
                 <div class="tv-game-info baseball-info">
                     <div class="bb-inning-display">
                         <span id="bb-inning-half" class="inning-arrow">&#9650;</span>
@@ -155,14 +145,13 @@
                         <div class="count-row"><span class="count-lbl">O</span><span class="dot-group" id="bb-outs"><span class="dot"></span><span class="dot"></span></span></div>
                     </div>
                 </div>
-                <div class="tv-score home-score" id="bb-home-score">0</div>
-                <div class="tv-team home" onclick="openTeamPicker('baseball', 'home')">
-                    <span class="tv-team-name" id="bb-home-name">HOME</span>
+                <div class="team-row home-row" onclick="openTeamPicker('baseball', 'home')">
                     <img id="bb-home-logo" class="tv-logo" src="" alt="">
+                    <span class="tv-team-name" id="bb-home-name">HOME</span>
+                    <span class="tv-score" id="bb-home-score">0</span>
                 </div>
             </div>
 
-            <!-- Baseball Diamond & Stats Strip -->
             <div class="bb-info-strip">
                 <div class="bb-diamond-section">
                     <div class="mini-diamond">
@@ -173,18 +162,8 @@
                     </div>
                 </div>
                 <div class="bb-stats-section">
-                    <div class="bb-stat-pair">
-                        <span class="stat-label">H</span>
-                        <span class="stat-val" id="bb-away-hits">0</span>
-                        <span class="stat-sep">-</span>
-                        <span class="stat-val" id="bb-home-hits">0</span>
-                    </div>
-                    <div class="bb-stat-pair">
-                        <span class="stat-label">E</span>
-                        <span class="stat-val" id="bb-away-errors">0</span>
-                        <span class="stat-sep">-</span>
-                        <span class="stat-val" id="bb-home-errors">0</span>
-                    </div>
+                    <div class="bb-stat-pair"><span class="stat-label">H</span><span class="stat-val" id="bb-away-hits">0</span><span class="stat-sep">-</span><span class="stat-val" id="bb-home-hits">0</span></div>
+                    <div class="bb-stat-pair"><span class="stat-label">E</span><span class="stat-val" id="bb-away-errors">0</span><span class="stat-sep">-</span><span class="stat-val" id="bb-home-errors">0</span></div>
                 </div>
                 <div class="bb-count-controls">
                     <button class="count-action" onclick="Baseball.addBall()">BALL</button>
@@ -194,7 +173,6 @@
                 </div>
             </div>
 
-            <!-- Baseball Controls -->
             <div class="controls-row">
                 <div class="control-group">
                     <span class="ctrl-label">INNING</span>
@@ -222,12 +200,9 @@
                 </div>
             </div>
 
-            <!-- Line Score -->
             <div class="box-score" id="bb-line-score">
                 <table>
-                    <thead>
-                        <tr><th></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>R</th><th>H</th><th>E</th></tr>
-                    </thead>
+                    <thead><tr><th></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>R</th><th>H</th><th>E</th></tr></thead>
                     <tbody>
                         <tr id="bb-away-innings"><td id="bb-away-abbr" class="team-col">AWAY</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="total-col">0</td><td class="total-col">0</td><td class="total-col">0</td></tr>
                         <tr id="bb-home-innings"><td id="bb-home-abbr" class="team-col">HOME</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="total-col">0</td><td class="total-col">0</td><td class="total-col">0</td></tr>
@@ -238,25 +213,23 @@
 
         <!-- ==================== BASKETBALL SCOREBOARD ==================== -->
         <div id="basketball-scoreboard" class="scoreboard basketball-board" style="display:none;">
-            <!-- Main Score Bar -->
             <div class="tv-scorebar">
-                <div class="tv-team away" onclick="openTeamPicker('basketball', 'away')">
+                <div class="team-row away-row" onclick="openTeamPicker('basketball', 'away')">
                     <img id="bk-away-logo" class="tv-logo" src="" alt="">
                     <span class="tv-team-name" id="bk-away-name">AWAY</span>
+                    <span class="tv-score" id="bk-away-score">0</span>
                 </div>
-                <div class="tv-score away-score" id="bk-away-score">0</div>
                 <div class="tv-game-info">
                     <div class="tv-clock" id="bk-clock">12:00</div>
                     <div class="tv-period" id="bk-quarter">1ST QTR</div>
                 </div>
-                <div class="tv-score home-score" id="bk-home-score">0</div>
-                <div class="tv-team home" onclick="openTeamPicker('basketball', 'home')">
-                    <span class="tv-team-name" id="bk-home-name">HOME</span>
+                <div class="team-row home-row" onclick="openTeamPicker('basketball', 'home')">
                     <img id="bk-home-logo" class="tv-logo" src="" alt="">
+                    <span class="tv-team-name" id="bk-home-name">HOME</span>
+                    <span class="tv-score" id="bk-home-score">0</span>
                 </div>
             </div>
 
-            <!-- Basketball Info Strip -->
             <div class="bk-info-strip">
                 <div class="bk-fouls-section">
                     <div class="foul-tracker">
@@ -286,7 +259,6 @@
                 </div>
             </div>
 
-            <!-- Basketball Timeouts -->
             <div class="timeouts-strip">
                 <div class="to-group">
                     <span class="to-label">TIMEOUTS</span>
@@ -310,7 +282,6 @@
                 </div>
             </div>
 
-            <!-- Basketball Controls -->
             <div class="controls-row">
                 <div class="control-group">
                     <span class="ctrl-label">QUARTER</span>
@@ -346,12 +317,9 @@
                 </div>
             </div>
 
-            <!-- Quarter Scores -->
             <div class="box-score" id="bk-quarter-scores">
                 <table>
-                    <thead>
-                        <tr><th></th><th>Q1</th><th>Q2</th><th>Q3</th><th>Q4</th><th>OT</th><th>TOTAL</th></tr>
-                    </thead>
+                    <thead><tr><th></th><th>Q1</th><th>Q2</th><th>Q3</th><th>Q4</th><th>OT</th><th>TOTAL</th></tr></thead>
                     <tbody>
                         <tr id="bk-away-qtrs"><td id="bk-away-abbr" class="team-col">AWAY</td><td>0</td><td>0</td><td>0</td><td>0</td><td>-</td><td class="total-col">0</td></tr>
                         <tr id="bk-home-qtrs"><td id="bk-home-abbr" class="team-col">HOME</td><td>0</td><td>0</td><td>0</td><td>0</td><td>-</td><td class="total-col">0</td></tr>
@@ -374,7 +342,6 @@
             </div>
         </div>
 
-        <!-- Game Controls -->
         <div class="game-controls">
             <button class="control-btn" onclick="resetGame()">&#8635; New Game</button>
             <button class="control-btn" onclick="swapTeams()">&#8644; Swap Teams</button>
