@@ -8,13 +8,11 @@
 </head>
 <body class="football-theme">
     <div id="app">
-        <!-- Header -->
         <div class="app-header">
             <div class="header-title">ASHER'S SCOREBOARD</div>
             <div class="header-subtitle">THE OFFICIAL GAME DAY EXPERIENCE</div>
         </div>
 
-        <!-- Sport Selector -->
         <div class="sport-selector">
             <button class="sport-btn active" data-sport="football" onclick="switchSport('football')">
                 <span class="sport-icon">&#127944;</span> NFL
@@ -27,97 +25,100 @@
             </button>
         </div>
 
-        <!-- ==================== FOOTBALL SCOREBOARD ==================== -->
-        <div id="football-scoreboard" class="scoreboard football-board">
-            <div class="tv-scorebar">
-                <div class="team-row away-row" onclick="openTeamPicker('football', 'away')">
-                    <img id="fb-away-logo" class="tv-logo" src="" alt="">
-                    <span class="tv-team-name" id="fb-away-name">AWAY</span>
-                    <span class="tv-score" id="fb-away-score">0</span>
+        <!-- ==================== FOOTBALL ==================== -->
+        <div id="football-scoreboard" class="scoreboard">
+            <!-- Away team row -->
+            <div class="team-row away-row" onclick="openTeamPicker('football', 'away')">
+                <div class="poss-indicator" id="fb-poss-away-dot"></div>
+                <img id="fb-away-logo" class="tv-logo" src="" alt="">
+                <span class="tv-team-name" id="fb-away-name">AWAY</span>
+                <div class="row-timeouts" id="fb-away-to">
+                    <span class="to-dot active" onclick="event.stopPropagation(); Football.toggleTimeout('away', 0)"></span>
+                    <span class="to-dot active" onclick="event.stopPropagation(); Football.toggleTimeout('away', 1)"></span>
+                    <span class="to-dot active" onclick="event.stopPropagation(); Football.toggleTimeout('away', 2)"></span>
                 </div>
-                <div class="tv-game-info">
-                    <div class="tv-clock" id="fb-clock">15:00</div>
-                    <div class="tv-period" id="fb-quarter">1ST QTR</div>
-                </div>
-                <div class="team-row home-row" onclick="openTeamPicker('football', 'home')">
-                    <img id="fb-home-logo" class="tv-logo" src="" alt="">
-                    <span class="tv-team-name" id="fb-home-name">HOME</span>
-                    <span class="tv-score" id="fb-home-score">0</span>
-                </div>
+                <span class="tv-score" id="fb-away-score">0</span>
             </div>
 
-            <div class="fb-info-strip">
-                <div class="fb-possession">
-                    <button class="poss-arrow" id="fb-poss-away" onclick="Football.setPossession('away')">&#9664;</button>
-                    <span class="strip-label">POSS</span>
-                    <button class="poss-arrow" id="fb-poss-home" onclick="Football.setPossession('home')">&#9654;</button>
+            <!-- Game info -->
+            <div class="game-info-bar">
+                <div class="info-cell">
+                    <div class="tv-clock" id="fb-clock">15:00</div>
                 </div>
-                <div class="fb-down-distance">
-                    <button class="strip-btn" onclick="Football.prevDown()">-</button>
+                <div class="info-cell">
+                    <div class="tv-period" id="fb-quarter">1ST QTR</div>
+                </div>
+                <div class="info-cell highlight">
                     <span class="down-text"><span id="fb-down">1ST</span> &amp; <span id="fb-distance">10</span></span>
-                    <button class="strip-btn" onclick="Football.nextDown()">+</button>
                 </div>
-                <div class="fb-yardline">
-                    <button class="strip-btn" onclick="Football.moveBall(-5)">-5</button>
+                <div class="info-cell">
                     <span class="yard-text">BALL ON <span id="fb-yardline">50</span></span>
-                    <button class="strip-btn" onclick="Football.moveBall(5)">+5</button>
                 </div>
-                <div class="fb-play-clock">
-                    <span class="strip-label">PLAY CLOCK</span>
+                <div class="info-cell">
+                    <span class="pc-label">PLAY CLK</span>
                     <span class="play-clock-value" id="fb-play-clock">40</span>
                 </div>
             </div>
 
-            <div class="timeouts-strip">
-                <div class="to-group">
-                    <span class="to-label">TIMEOUTS</span>
-                    <span class="timeout active" onclick="Football.toggleTimeout('away', 0)"></span>
-                    <span class="timeout active" onclick="Football.toggleTimeout('away', 1)"></span>
-                    <span class="timeout active" onclick="Football.toggleTimeout('away', 2)"></span>
+            <!-- Home team row -->
+            <div class="team-row home-row" onclick="openTeamPicker('football', 'home')">
+                <div class="poss-indicator" id="fb-poss-home-dot"></div>
+                <img id="fb-home-logo" class="tv-logo" src="" alt="">
+                <span class="tv-team-name" id="fb-home-name">HOME</span>
+                <div class="row-timeouts" id="fb-home-to">
+                    <span class="to-dot active" onclick="event.stopPropagation(); Football.toggleTimeout('home', 0)"></span>
+                    <span class="to-dot active" onclick="event.stopPropagation(); Football.toggleTimeout('home', 1)"></span>
+                    <span class="to-dot active" onclick="event.stopPropagation(); Football.toggleTimeout('home', 2)"></span>
                 </div>
-                <div class="to-group">
-                    <span class="timeout active" onclick="Football.toggleTimeout('home', 0)"></span>
-                    <span class="timeout active" onclick="Football.toggleTimeout('home', 1)"></span>
-                    <span class="timeout active" onclick="Football.toggleTimeout('home', 2)"></span>
-                    <span class="to-label">TIMEOUTS</span>
-                </div>
+                <span class="tv-score" id="fb-home-score">0</span>
             </div>
 
-            <div class="controls-row">
-                <div class="control-group">
-                    <span class="ctrl-label">QUARTER</span>
-                    <button class="ctrl-btn" onclick="Football.prevQuarter()">&#9664;</button>
-                    <button class="ctrl-btn" onclick="Football.nextQuarter()">&#9654;</button>
+            <!-- Controls -->
+            <div class="controls-section">
+                <div class="ctrl-row">
+                    <button class="ctrl-btn" onclick="Football.setPossession('away')">&#9664; POSS</button>
+                    <button class="ctrl-btn" onclick="Football.setPossession('home')">POSS &#9654;</button>
+                    <button class="ctrl-btn" onclick="Football.prevDown()">DOWN -</button>
+                    <button class="ctrl-btn" onclick="Football.nextDown()">DOWN +</button>
                 </div>
-                <div class="control-group">
-                    <span class="ctrl-label">GAME CLOCK</span>
-                    <button class="ctrl-btn" onclick="Football.toggleClock()">&#9205;/&#9208;</button>
-                    <button class="ctrl-btn" onclick="Football.resetClock()">&#8635;</button>
+                <div class="ctrl-row">
+                    <button class="ctrl-btn" onclick="Football.moveBall(-5)">-5 YDS</button>
+                    <button class="ctrl-btn" onclick="Football.moveBall(5)">+5 YDS</button>
+                    <button class="ctrl-btn" onclick="Football.prevQuarter()">&#9664; QTR</button>
+                    <button class="ctrl-btn" onclick="Football.nextQuarter()">QTR &#9654;</button>
                 </div>
-                <div class="control-group">
-                    <span class="ctrl-label">SCORING</span>
+                <div class="ctrl-row">
+                    <button class="ctrl-btn clock-btn" onclick="Football.toggleClock()">&#9205;/&#9208; CLOCK</button>
+                    <button class="ctrl-btn" onclick="Football.resetClock()">&#8635; RESET CLOCK</button>
+                </div>
+
+                <div class="team-scoring away-scoring">
+                    <div class="scoring-label"><span id="fb-away-score-label">AWAY</span> SCORING</div>
                     <div class="scoring-btns">
-                        <button class="score-action away-action" onclick="Football.addScore('away', 6)">TD</button>
-                        <button class="score-action away-action" onclick="Football.addScore('away', 3)">FG</button>
-                        <button class="score-action away-action" onclick="Football.addScore('away', 1)">XP</button>
-                        <button class="score-action away-action" onclick="Football.addScore('away', 2)">2P</button>
-                        <button class="score-action away-action" onclick="Football.addScore('away', 2)">SAF</button>
-                        <button class="score-action away-action sub" onclick="Football.addScore('away', -1)">-1</button>
+                        <button class="s-btn" onclick="Football.addScore('away', 6)">TD +6</button>
+                        <button class="s-btn" onclick="Football.addScore('away', 3)">FG +3</button>
+                        <button class="s-btn" onclick="Football.addScore('away', 1)">XP +1</button>
+                        <button class="s-btn" onclick="Football.addScore('away', 2)">2PT +2</button>
+                        <button class="s-btn" onclick="Football.addScore('away', 2)">SAF +2</button>
+                        <button class="s-btn sub" onclick="Football.addScore('away', -1)">-1</button>
                     </div>
+                </div>
+                <div class="team-scoring home-scoring">
+                    <div class="scoring-label"><span id="fb-home-score-label">HOME</span> SCORING</div>
                     <div class="scoring-btns">
-                        <button class="score-action home-action" onclick="Football.addScore('home', 6)">TD</button>
-                        <button class="score-action home-action" onclick="Football.addScore('home', 3)">FG</button>
-                        <button class="score-action home-action" onclick="Football.addScore('home', 1)">XP</button>
-                        <button class="score-action home-action" onclick="Football.addScore('home', 2)">2P</button>
-                        <button class="score-action home-action" onclick="Football.addScore('home', 2)">SAF</button>
-                        <button class="score-action home-action sub" onclick="Football.addScore('home', -1)">-1</button>
+                        <button class="s-btn" onclick="Football.addScore('home', 6)">TD +6</button>
+                        <button class="s-btn" onclick="Football.addScore('home', 3)">FG +3</button>
+                        <button class="s-btn" onclick="Football.addScore('home', 1)">XP +1</button>
+                        <button class="s-btn" onclick="Football.addScore('home', 2)">2PT +2</button>
+                        <button class="s-btn" onclick="Football.addScore('home', 2)">SAF +2</button>
+                        <button class="s-btn sub" onclick="Football.addScore('home', -1)">-1</button>
                     </div>
                 </div>
             </div>
 
             <div class="box-score" id="fb-quarter-scores">
                 <table>
-                    <thead><tr><th></th><th>Q1</th><th>Q2</th><th>Q3</th><th>Q4</th><th>OT</th><th>TOTAL</th></tr></thead>
+                    <thead><tr><th></th><th>Q1</th><th>Q2</th><th>Q3</th><th>Q4</th><th>OT</th><th>T</th></tr></thead>
                     <tbody>
                         <tr id="fb-away-qtrs"><td id="fb-away-abbr" class="team-col">AWAY</td><td>0</td><td>0</td><td>0</td><td>0</td><td>-</td><td class="total-col">0</td></tr>
                         <tr id="fb-home-qtrs"><td id="fb-home-abbr" class="team-col">HOME</td><td>0</td><td>0</td><td>0</td><td>0</td><td>-</td><td class="total-col">0</td></tr>
@@ -126,34 +127,33 @@
             </div>
         </div>
 
-        <!-- ==================== BASEBALL SCOREBOARD ==================== -->
-        <div id="baseball-scoreboard" class="scoreboard baseball-board" style="display:none;">
-            <div class="tv-scorebar">
-                <div class="team-row away-row" onclick="openTeamPicker('baseball', 'away')">
-                    <img id="bb-away-logo" class="tv-logo" src="" alt="">
-                    <span class="tv-team-name" id="bb-away-name">AWAY</span>
-                    <span class="tv-score" id="bb-away-score">0</span>
+        <!-- ==================== BASEBALL ==================== -->
+        <div id="baseball-scoreboard" class="scoreboard" style="display:none;">
+            <div class="team-row away-row" onclick="openTeamPicker('baseball', 'away')">
+                <img id="bb-away-logo" class="tv-logo" src="" alt="">
+                <span class="tv-team-name" id="bb-away-name">AWAY</span>
+                <div class="bb-row-stats">
+                    <span class="mini-stat">H:<span id="bb-away-hits">0</span></span>
+                    <span class="mini-stat">E:<span id="bb-away-errors">0</span></span>
                 </div>
-                <div class="tv-game-info baseball-info">
+                <span class="tv-score" id="bb-away-score">0</span>
+            </div>
+
+            <div class="game-info-bar bb-game-info">
+                <div class="info-cell">
                     <div class="bb-inning-display">
                         <span id="bb-inning-half" class="inning-arrow">&#9650;</span>
                         <span class="tv-period" id="bb-inning">1ST</span>
                     </div>
-                    <div class="bb-count-display">
-                        <div class="count-row"><span class="count-lbl">B</span><span class="dot-group" id="bb-balls"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></div>
-                        <div class="count-row"><span class="count-lbl">S</span><span class="dot-group" id="bb-strikes"><span class="dot"></span><span class="dot"></span></span></div>
-                        <div class="count-row"><span class="count-lbl">O</span><span class="dot-group" id="bb-outs"><span class="dot"></span><span class="dot"></span></span></div>
+                </div>
+                <div class="info-cell">
+                    <div class="bso-display">
+                        <div class="bso-row"><span class="bso-lbl">B</span><span class="dot-group" id="bb-balls"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></div>
+                        <div class="bso-row"><span class="bso-lbl">S</span><span class="dot-group" id="bb-strikes"><span class="dot"></span><span class="dot"></span></span></div>
+                        <div class="bso-row"><span class="bso-lbl">O</span><span class="dot-group" id="bb-outs"><span class="dot"></span><span class="dot"></span></span></div>
                     </div>
                 </div>
-                <div class="team-row home-row" onclick="openTeamPicker('baseball', 'home')">
-                    <img id="bb-home-logo" class="tv-logo" src="" alt="">
-                    <span class="tv-team-name" id="bb-home-name">HOME</span>
-                    <span class="tv-score" id="bb-home-score">0</span>
-                </div>
-            </div>
-
-            <div class="bb-info-strip">
-                <div class="bb-diamond-section">
+                <div class="info-cell">
                     <div class="mini-diamond">
                         <div class="mini-base second" id="bb-second" onclick="Baseball.toggleBase('second')"></div>
                         <div class="mini-base third" id="bb-third" onclick="Baseball.toggleBase('third')"></div>
@@ -161,41 +161,47 @@
                         <div class="mini-base home-plate"></div>
                     </div>
                 </div>
-                <div class="bb-stats-section">
-                    <div class="bb-stat-pair"><span class="stat-label">H</span><span class="stat-val" id="bb-away-hits">0</span><span class="stat-sep">-</span><span class="stat-val" id="bb-home-hits">0</span></div>
-                    <div class="bb-stat-pair"><span class="stat-label">E</span><span class="stat-val" id="bb-away-errors">0</span><span class="stat-sep">-</span><span class="stat-val" id="bb-home-errors">0</span></div>
-                </div>
-                <div class="bb-count-controls">
-                    <button class="count-action" onclick="Baseball.addBall()">BALL</button>
-                    <button class="count-action" onclick="Baseball.addStrike()">STRIKE</button>
-                    <button class="count-action" onclick="Baseball.addOut()">OUT</button>
-                    <button class="count-action reset-count" onclick="Baseball.resetCount()">RESET</button>
-                </div>
             </div>
 
-            <div class="controls-row">
-                <div class="control-group">
-                    <span class="ctrl-label">INNING</span>
-                    <button class="ctrl-btn" onclick="Baseball.prevInning()">&#9664;</button>
-                    <button class="ctrl-btn" onclick="Baseball.nextInning()">&#9654;</button>
+            <div class="team-row home-row" onclick="openTeamPicker('baseball', 'home')">
+                <img id="bb-home-logo" class="tv-logo" src="" alt="">
+                <span class="tv-team-name" id="bb-home-name">HOME</span>
+                <div class="bb-row-stats">
+                    <span class="mini-stat">H:<span id="bb-home-hits">0</span></span>
+                    <span class="mini-stat">E:<span id="bb-home-errors">0</span></span>
+                </div>
+                <span class="tv-score" id="bb-home-score">0</span>
+            </div>
+
+            <div class="controls-section">
+                <div class="ctrl-row">
+                    <button class="ctrl-btn" onclick="Baseball.addBall()">BALL</button>
+                    <button class="ctrl-btn" onclick="Baseball.addStrike()">STRIKE</button>
+                    <button class="ctrl-btn" onclick="Baseball.addOut()">OUT</button>
+                    <button class="ctrl-btn" onclick="Baseball.resetCount()">RESET</button>
+                </div>
+                <div class="ctrl-row">
+                    <button class="ctrl-btn" onclick="Baseball.prevInning()">&#9664; INNING</button>
+                    <button class="ctrl-btn" onclick="Baseball.nextInning()">INNING &#9654;</button>
                     <button class="ctrl-btn ff-btn" onclick="Baseball.fastForward()">&#9193; SKIP INNING</button>
                 </div>
-                <div class="control-group">
-                    <span class="ctrl-label">AWAY SCORING</span>
+
+                <div class="team-scoring away-scoring">
+                    <div class="scoring-label"><span id="bb-away-score-label">AWAY</span> SCORING</div>
                     <div class="scoring-btns">
-                        <button class="score-action away-action" onclick="Baseball.addRun('away', 1)">RUN</button>
-                        <button class="score-action away-action" onclick="Baseball.addHit('away')">HIT</button>
-                        <button class="score-action away-action" onclick="Baseball.addError('away')">ERR</button>
-                        <button class="score-action away-action sub" onclick="Baseball.addRun('away', -1)">-1</button>
+                        <button class="s-btn" onclick="Baseball.addRun('away', 1)">RUN +1</button>
+                        <button class="s-btn" onclick="Baseball.addHit('away')">HIT</button>
+                        <button class="s-btn" onclick="Baseball.addError('away')">ERROR</button>
+                        <button class="s-btn sub" onclick="Baseball.addRun('away', -1)">-1</button>
                     </div>
                 </div>
-                <div class="control-group">
-                    <span class="ctrl-label">HOME SCORING</span>
+                <div class="team-scoring home-scoring">
+                    <div class="scoring-label"><span id="bb-home-score-label">HOME</span> SCORING</div>
                     <div class="scoring-btns">
-                        <button class="score-action home-action" onclick="Baseball.addRun('home', 1)">RUN</button>
-                        <button class="score-action home-action" onclick="Baseball.addHit('home')">HIT</button>
-                        <button class="score-action home-action" onclick="Baseball.addError('home')">ERR</button>
-                        <button class="score-action home-action sub" onclick="Baseball.addRun('home', -1)">-1</button>
+                        <button class="s-btn" onclick="Baseball.addRun('home', 1)">RUN +1</button>
+                        <button class="s-btn" onclick="Baseball.addHit('home')">HIT</button>
+                        <button class="s-btn" onclick="Baseball.addError('home')">ERROR</button>
+                        <button class="s-btn sub" onclick="Baseball.addRun('home', -1)">-1</button>
                     </div>
                 </div>
             </div>
@@ -211,115 +217,110 @@
             </div>
         </div>
 
-        <!-- ==================== BASKETBALL SCOREBOARD ==================== -->
-        <div id="basketball-scoreboard" class="scoreboard basketball-board" style="display:none;">
-            <div class="tv-scorebar">
-                <div class="team-row away-row" onclick="openTeamPicker('basketball', 'away')">
-                    <img id="bk-away-logo" class="tv-logo" src="" alt="">
-                    <span class="tv-team-name" id="bk-away-name">AWAY</span>
-                    <span class="tv-score" id="bk-away-score">0</span>
+        <!-- ==================== BASKETBALL ==================== -->
+        <div id="basketball-scoreboard" class="scoreboard" style="display:none;">
+            <div class="team-row away-row" onclick="openTeamPicker('basketball', 'away')">
+                <div class="poss-indicator" id="bk-poss-away-dot"></div>
+                <img id="bk-away-logo" class="tv-logo" src="" alt="">
+                <span class="tv-team-name" id="bk-away-name">AWAY</span>
+                <div class="row-fouls">
+                    <span class="foul-lbl">F:</span>
+                    <span class="foul-num" id="bk-away-fouls">0</span>
+                    <span class="bonus-tag" id="bk-away-bonus"></span>
                 </div>
-                <div class="tv-game-info">
+                <div class="row-timeouts" id="bk-away-to">
+                    <span class="to-dot active" onclick="event.stopPropagation(); Basketball.toggleTimeout('away', 0)"></span>
+                    <span class="to-dot active" onclick="event.stopPropagation(); Basketball.toggleTimeout('away', 1)"></span>
+                    <span class="to-dot active" onclick="event.stopPropagation(); Basketball.toggleTimeout('away', 2)"></span>
+                    <span class="to-dot active" onclick="event.stopPropagation(); Basketball.toggleTimeout('away', 3)"></span>
+                    <span class="to-dot active" onclick="event.stopPropagation(); Basketball.toggleTimeout('away', 4)"></span>
+                    <span class="to-dot active" onclick="event.stopPropagation(); Basketball.toggleTimeout('away', 5)"></span>
+                    <span class="to-dot active" onclick="event.stopPropagation(); Basketball.toggleTimeout('away', 6)"></span>
+                </div>
+                <span class="tv-score" id="bk-away-score">0</span>
+            </div>
+
+            <div class="game-info-bar">
+                <div class="info-cell">
                     <div class="tv-clock" id="bk-clock">12:00</div>
+                </div>
+                <div class="info-cell">
                     <div class="tv-period" id="bk-quarter">1ST QTR</div>
                 </div>
-                <div class="team-row home-row" onclick="openTeamPicker('basketball', 'home')">
-                    <img id="bk-home-logo" class="tv-logo" src="" alt="">
-                    <span class="tv-team-name" id="bk-home-name">HOME</span>
-                    <span class="tv-score" id="bk-home-score">0</span>
+                <div class="info-cell">
+                    <span class="sc-label">SHOT CLK</span>
+                    <span class="shot-clock-val" id="bk-shot-clock">24</span>
                 </div>
             </div>
 
-            <div class="bk-info-strip">
-                <div class="bk-fouls-section">
-                    <div class="foul-tracker">
-                        <span class="foul-label">FOULS</span>
-                        <button class="foul-adj" onclick="Basketball.addFoul('away', -1)">-</button>
-                        <span class="foul-count" id="bk-away-fouls">0</span>
-                        <button class="foul-adj" onclick="Basketball.addFoul('away', 1)">+</button>
-                        <span class="bonus-tag" id="bk-away-bonus"></span>
-                    </div>
+            <div class="team-row home-row" onclick="openTeamPicker('basketball', 'home')">
+                <div class="poss-indicator" id="bk-poss-home-dot"></div>
+                <img id="bk-home-logo" class="tv-logo" src="" alt="">
+                <span class="tv-team-name" id="bk-home-name">HOME</span>
+                <div class="row-fouls">
+                    <span class="foul-lbl">F:</span>
+                    <span class="foul-num" id="bk-home-fouls">0</span>
+                    <span class="bonus-tag" id="bk-home-bonus"></span>
                 </div>
-                <div class="bk-possession">
-                    <button class="poss-arrow" id="bk-poss-away" onclick="Basketball.setPossession('away')">&#9664;</button>
-                    <div class="shot-clock-box">
-                        <div class="shot-clock-val" id="bk-shot-clock">24</div>
-                        <div class="shot-clock-lbl">SHOT CLOCK</div>
-                    </div>
-                    <button class="poss-arrow" id="bk-poss-home" onclick="Basketball.setPossession('home')">&#9654;</button>
+                <div class="row-timeouts" id="bk-home-to">
+                    <span class="to-dot active" onclick="event.stopPropagation(); Basketball.toggleTimeout('home', 0)"></span>
+                    <span class="to-dot active" onclick="event.stopPropagation(); Basketball.toggleTimeout('home', 1)"></span>
+                    <span class="to-dot active" onclick="event.stopPropagation(); Basketball.toggleTimeout('home', 2)"></span>
+                    <span class="to-dot active" onclick="event.stopPropagation(); Basketball.toggleTimeout('home', 3)"></span>
+                    <span class="to-dot active" onclick="event.stopPropagation(); Basketball.toggleTimeout('home', 4)"></span>
+                    <span class="to-dot active" onclick="event.stopPropagation(); Basketball.toggleTimeout('home', 5)"></span>
+                    <span class="to-dot active" onclick="event.stopPropagation(); Basketball.toggleTimeout('home', 6)"></span>
                 </div>
-                <div class="bk-fouls-section">
-                    <div class="foul-tracker">
-                        <span class="bonus-tag" id="bk-home-bonus"></span>
-                        <button class="foul-adj" onclick="Basketball.addFoul('home', -1)">-</button>
-                        <span class="foul-count" id="bk-home-fouls">0</span>
-                        <button class="foul-adj" onclick="Basketball.addFoul('home', 1)">+</button>
-                        <span class="foul-label">FOULS</span>
-                    </div>
-                </div>
+                <span class="tv-score" id="bk-home-score">0</span>
             </div>
 
-            <div class="timeouts-strip">
-                <div class="to-group">
-                    <span class="to-label">TIMEOUTS</span>
-                    <span class="timeout active" onclick="Basketball.toggleTimeout('away', 0)"></span>
-                    <span class="timeout active" onclick="Basketball.toggleTimeout('away', 1)"></span>
-                    <span class="timeout active" onclick="Basketball.toggleTimeout('away', 2)"></span>
-                    <span class="timeout active" onclick="Basketball.toggleTimeout('away', 3)"></span>
-                    <span class="timeout active" onclick="Basketball.toggleTimeout('away', 4)"></span>
-                    <span class="timeout active" onclick="Basketball.toggleTimeout('away', 5)"></span>
-                    <span class="timeout active" onclick="Basketball.toggleTimeout('away', 6)"></span>
+            <div class="controls-section">
+                <div class="ctrl-row">
+                    <button class="ctrl-btn" onclick="Basketball.setPossession('away')">&#9664; POSS</button>
+                    <button class="ctrl-btn" onclick="Basketball.setPossession('home')">POSS &#9654;</button>
+                    <button class="ctrl-btn" onclick="Basketball.prevQuarter()">&#9664; QTR</button>
+                    <button class="ctrl-btn" onclick="Basketball.nextQuarter()">QTR &#9654;</button>
                 </div>
-                <div class="to-group">
-                    <span class="timeout active" onclick="Basketball.toggleTimeout('home', 0)"></span>
-                    <span class="timeout active" onclick="Basketball.toggleTimeout('home', 1)"></span>
-                    <span class="timeout active" onclick="Basketball.toggleTimeout('home', 2)"></span>
-                    <span class="timeout active" onclick="Basketball.toggleTimeout('home', 3)"></span>
-                    <span class="timeout active" onclick="Basketball.toggleTimeout('home', 4)"></span>
-                    <span class="timeout active" onclick="Basketball.toggleTimeout('home', 5)"></span>
-                    <span class="timeout active" onclick="Basketball.toggleTimeout('home', 6)"></span>
-                    <span class="to-label">TIMEOUTS</span>
-                </div>
-            </div>
-
-            <div class="controls-row">
-                <div class="control-group">
-                    <span class="ctrl-label">QUARTER</span>
-                    <button class="ctrl-btn" onclick="Basketball.prevQuarter()">&#9664;</button>
-                    <button class="ctrl-btn" onclick="Basketball.nextQuarter()">&#9654;</button>
-                </div>
-                <div class="control-group">
-                    <span class="ctrl-label">CLOCKS</span>
-                    <button class="ctrl-btn" onclick="Basketball.toggleClock()">&#9205;/&#9208;</button>
-                    <button class="ctrl-btn" onclick="Basketball.resetClock()">&#8635; GAME</button>
+                <div class="ctrl-row">
+                    <button class="ctrl-btn clock-btn" onclick="Basketball.toggleClock()">&#9205;/&#9208; CLOCK</button>
+                    <button class="ctrl-btn" onclick="Basketball.resetClock()">&#8635; RESET</button>
                     <button class="ctrl-btn ff-btn" onclick="Basketball.fastForward()">&#9193; FAST FWD</button>
-                    <button class="ctrl-btn" onclick="Basketball.setShotClock(24)">24</button>
-                    <button class="ctrl-btn" onclick="Basketball.setShotClock(14)">14</button>
-                    <button class="ctrl-btn" onclick="Basketball.toggleShotClock()">&#9205; SHOT</button>
                 </div>
-                <div class="control-group">
-                    <span class="ctrl-label">AWAY SCORING</span>
+                <div class="ctrl-row">
+                    <button class="ctrl-btn" onclick="Basketball.setShotClock(24)">SHOT 24</button>
+                    <button class="ctrl-btn" onclick="Basketball.setShotClock(14)">SHOT 14</button>
+                    <button class="ctrl-btn" onclick="Basketball.toggleShotClock()">&#9205; SHOT CLK</button>
+                </div>
+                <div class="ctrl-row">
+                    <button class="ctrl-btn" onclick="Basketball.addFoul('away', 1)">AWAY FOUL +</button>
+                    <button class="ctrl-btn" onclick="Basketball.addFoul('away', -1)">AWAY FOUL -</button>
+                    <button class="ctrl-btn" onclick="Basketball.addFoul('home', 1)">HOME FOUL +</button>
+                    <button class="ctrl-btn" onclick="Basketball.addFoul('home', -1)">HOME FOUL -</button>
+                </div>
+
+                <div class="team-scoring away-scoring">
+                    <div class="scoring-label"><span id="bk-away-score-label">AWAY</span> SCORING</div>
                     <div class="scoring-btns">
-                        <button class="score-action away-action" onclick="Basketball.addScore('away', 1)">FT</button>
-                        <button class="score-action away-action" onclick="Basketball.addScore('away', 2)">2PT</button>
-                        <button class="score-action away-action" onclick="Basketball.addScore('away', 3)">3PT</button>
-                        <button class="score-action away-action sub" onclick="Basketball.addScore('away', -1)">-1</button>
+                        <button class="s-btn" onclick="Basketball.addScore('away', 1)">FT +1</button>
+                        <button class="s-btn" onclick="Basketball.addScore('away', 2)">2PT +2</button>
+                        <button class="s-btn" onclick="Basketball.addScore('away', 3)">3PT +3</button>
+                        <button class="s-btn sub" onclick="Basketball.addScore('away', -1)">-1</button>
                     </div>
                 </div>
-                <div class="control-group">
-                    <span class="ctrl-label">HOME SCORING</span>
+                <div class="team-scoring home-scoring">
+                    <div class="scoring-label"><span id="bk-home-score-label">HOME</span> SCORING</div>
                     <div class="scoring-btns">
-                        <button class="score-action home-action" onclick="Basketball.addScore('home', 1)">FT</button>
-                        <button class="score-action home-action" onclick="Basketball.addScore('home', 2)">2PT</button>
-                        <button class="score-action home-action" onclick="Basketball.addScore('home', 3)">3PT</button>
-                        <button class="score-action home-action sub" onclick="Basketball.addScore('home', -1)">-1</button>
+                        <button class="s-btn" onclick="Basketball.addScore('home', 1)">FT +1</button>
+                        <button class="s-btn" onclick="Basketball.addScore('home', 2)">2PT +2</button>
+                        <button class="s-btn" onclick="Basketball.addScore('home', 3)">3PT +3</button>
+                        <button class="s-btn sub" onclick="Basketball.addScore('home', -1)">-1</button>
                     </div>
                 </div>
             </div>
 
             <div class="box-score" id="bk-quarter-scores">
                 <table>
-                    <thead><tr><th></th><th>Q1</th><th>Q2</th><th>Q3</th><th>Q4</th><th>OT</th><th>TOTAL</th></tr></thead>
+                    <thead><tr><th></th><th>Q1</th><th>Q2</th><th>Q3</th><th>Q4</th><th>OT</th><th>T</th></tr></thead>
                     <tbody>
                         <tr id="bk-away-qtrs"><td id="bk-away-abbr" class="team-col">AWAY</td><td>0</td><td>0</td><td>0</td><td>0</td><td>-</td><td class="total-col">0</td></tr>
                         <tr id="bk-home-qtrs"><td id="bk-home-abbr" class="team-col">HOME</td><td>0</td><td>0</td><td>0</td><td>0</td><td>-</td><td class="total-col">0</td></tr>
@@ -328,7 +329,7 @@
             </div>
         </div>
 
-        <!-- ==================== TEAM PICKER MODAL ==================== -->
+        <!-- Team Picker Modal -->
         <div id="team-picker-modal" class="modal" style="display:none;">
             <div class="modal-content">
                 <div class="modal-header">
@@ -343,8 +344,8 @@
         </div>
 
         <div class="game-controls">
-            <button class="control-btn" onclick="resetGame()">&#8635; New Game</button>
-            <button class="control-btn" onclick="swapTeams()">&#8644; Swap Teams</button>
+            <button class="game-btn" onclick="resetGame()">&#8635; NEW GAME</button>
+            <button class="game-btn" onclick="swapTeams()">&#8644; SWAP TEAMS</button>
         </div>
     </div>
 

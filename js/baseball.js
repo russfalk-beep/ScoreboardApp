@@ -142,6 +142,7 @@ const Baseball = {
         const prefix = 'bb-' + side;
         document.getElementById(prefix + '-name').textContent = team.abbr;
         document.getElementById(prefix + '-abbr').textContent = team.abbr;
+        document.getElementById(prefix + '-score-label').textContent = team.abbr;
         setTeamLogo(document.getElementById(prefix + '-logo'), 'baseball', team);
     },
 

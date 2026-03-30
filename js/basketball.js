@@ -109,8 +109,8 @@ const Basketball = {
 
     setPossession(side) {
         this.state.possession = side;
-        document.getElementById('bk-poss-away').classList.toggle('active', side === 'away');
-        document.getElementById('bk-poss-home').classList.toggle('active', side === 'home');
+        document.getElementById('bk-poss-away-dot').classList.toggle('active', side === 'away');
+        document.getElementById('bk-poss-home-dot').classList.toggle('active', side === 'home');
     },
 
     toggleTimeout(side, index) {
@@ -123,6 +123,7 @@ const Basketball = {
         const prefix = 'bk-' + side;
         document.getElementById(prefix + '-name').textContent = team.abbr;
         document.getElementById(prefix + '-abbr').textContent = team.abbr;
+        document.getElementById(prefix + '-score-label').textContent = team.abbr;
         setTeamLogo(document.getElementById(prefix + '-logo'), 'basketball', team);
     },
 
@@ -134,11 +135,12 @@ const Basketball = {
     },
 
     updateTimeouts() {
-        const strip = document.querySelector('#basketball-scoreboard .timeouts-strip');
-        const groups = strip.querySelectorAll('.to-group');
-        [this.state.awayTimeouts, this.state.homeTimeouts].forEach((tos, gi) => {
-            const dots = groups[gi].querySelectorAll('.timeout');
-            tos.forEach((active, i) => dots[i].classList.toggle('active', active));
+        ['away', 'home'].forEach(side => {
+            const container = document.getElementById('bk-' + side + '-to');
+            const dots = container.querySelectorAll('.to-dot');
+            this.state[side + 'Timeouts'].forEach((active, i) => {
+                dots[i].classList.toggle('active', active);
+            });
         });
     },
 
@@ -191,8 +193,8 @@ const Basketball = {
         this.state.awayTimeouts = [true, true, true, true, true, true, true];
         this.state.homeTimeouts = [true, true, true, true, true, true, true];
         this.state.quarterScores = { away: [0, 0, 0, 0, 0], home: [0, 0, 0, 0, 0] };
-        document.getElementById('bk-poss-away').classList.remove('active');
-        document.getElementById('bk-poss-home').classList.remove('active');
+        document.getElementById('bk-poss-away-dot').classList.remove('active');
+        document.getElementById('bk-poss-home-dot').classList.remove('active');
         this.updateDisplay();
     }
 };

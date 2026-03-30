@@ -93,8 +93,8 @@ const Football = {
 
     setPossession(side) {
         this.state.possession = side;
-        document.getElementById('fb-poss-away').classList.toggle('active', side === 'away');
-        document.getElementById('fb-poss-home').classList.toggle('active', side === 'home');
+        document.getElementById('fb-poss-away-dot').classList.toggle('active', side === 'away');
+        document.getElementById('fb-poss-home-dot').classList.toggle('active', side === 'home');
     },
 
     nextDown() {
@@ -122,6 +122,7 @@ const Football = {
         const prefix = 'fb-' + side;
         document.getElementById(prefix + '-name').textContent = team.abbr;
         document.getElementById(prefix + '-abbr').textContent = team.abbr;
+        document.getElementById(prefix + '-score-label').textContent = team.abbr;
         setTeamLogo(document.getElementById(prefix + '-logo'), 'football', team);
     },
 
@@ -133,12 +134,12 @@ const Football = {
     },
 
     updateTimeouts() {
-        const strip = document.querySelector('#football-scoreboard .timeouts-strip');
-        const groups = strip.querySelectorAll('.to-group');
-        // Away = first group, Home = second group
-        [this.state.awayTimeouts, this.state.homeTimeouts].forEach((tos, gi) => {
-            const dots = groups[gi].querySelectorAll('.timeout');
-            tos.forEach((active, i) => dots[i].classList.toggle('active', active));
+        ['away', 'home'].forEach(side => {
+            const container = document.getElementById('fb-' + side + '-to');
+            const dots = container.querySelectorAll('.to-dot');
+            this.state[side + 'Timeouts'].forEach((active, i) => {
+                dots[i].classList.toggle('active', active);
+            });
         });
     },
 
@@ -189,8 +190,8 @@ const Football = {
         this.state.awayTimeouts = [true, true, true];
         this.state.homeTimeouts = [true, true, true];
         this.state.quarterScores = { away: [0, 0, 0, 0, 0], home: [0, 0, 0, 0, 0] };
-        document.getElementById('fb-poss-away').classList.remove('active');
-        document.getElementById('fb-poss-home').classList.remove('active');
+        document.getElementById('fb-poss-away-dot').classList.remove('active');
+        document.getElementById('fb-poss-home-dot').classList.remove('active');
         this.updateDisplay();
     }
 };
