@@ -29,6 +29,7 @@ const Basketball = {
         this.state.quarterScores[side][qi] += points;
         if (this.state.quarterScores[side][qi] < 0) this.state.quarterScores[side][qi] = 0;
         this.updateDisplay();
+        animateScore('bk-' + side + '-score', points);
     },
 
     addFoul(side, count) {
@@ -125,6 +126,7 @@ const Basketball = {
         document.getElementById(prefix + '-abbr').textContent = team.abbr;
         document.getElementById(prefix + '-score-label').textContent = team.abbr;
         setTeamLogo(document.getElementById(prefix + '-logo'), 'basketball', team);
+        applyTeamColors('basketball-scoreboard', side, team);
     },
 
     updateClockDisplay() {

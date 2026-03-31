@@ -28,6 +28,7 @@ const Baseball = {
         this.state.inningScores[side][inningIdx] += count;
         if (this.state.inningScores[side][inningIdx] < 0) this.state.inningScores[side][inningIdx] = 0;
         this.updateDisplay();
+        animateScore('bb-' + side + '-score', count);
     },
 
     addHit(side) {
@@ -144,6 +145,7 @@ const Baseball = {
         document.getElementById(prefix + '-abbr').textContent = team.abbr;
         document.getElementById(prefix + '-score-label').textContent = team.abbr;
         setTeamLogo(document.getElementById(prefix + '-logo'), 'baseball', team);
+        applyTeamColors('baseball-scoreboard', side, team);
     },
 
     updateDisplay() {

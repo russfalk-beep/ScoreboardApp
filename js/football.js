@@ -28,6 +28,7 @@ const Football = {
         this.state.quarterScores[side][qi] += points;
         if (this.state.quarterScores[side][qi] < 0) this.state.quarterScores[side][qi] = 0;
         this.updateDisplay();
+        animateScore('fb-' + side + '-score', points);
     },
 
     nextQuarter() {
@@ -124,6 +125,7 @@ const Football = {
         document.getElementById(prefix + '-abbr').textContent = team.abbr;
         document.getElementById(prefix + '-score-label').textContent = team.abbr;
         setTeamLogo(document.getElementById(prefix + '-logo'), 'football', team);
+        applyTeamColors('football-scoreboard', side, team);
     },
 
     updateClockDisplay() {
